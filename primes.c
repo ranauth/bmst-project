@@ -153,65 +153,28 @@ int rho_pollard(int n){
 	return d;
 }
 
-// INUTILE POUR LA GÉNÉRATION DE CLEFS RSA
-// unsigned long long gen_strong_prime(int low_bound, int up_bound){ // Gordon's algorithm TODO: implémentation correcte (je crois) mais int overflow constant 
-// 	int s, t, i, j, r;
-// 	s = gen_prime(low_bound, up_bound);
-// 	t = gen_prime(low_bound, up_bound);
-// 	i = gen_ran_int(0,100);
-// 	j = 2*t;
-// 	r = j*i+1;
+unsigned long long gen_strong_prime(int low_bound, int up_bound){ // Gordon's algorithm 
+	int s, t, i, j, r;
+ 	s = gen_prime(low_bound, up_bound);
+ 	t = gen_prime(low_bound, up_bound);
+ 	i = gen_ran_int(0,100);
+ 	j = 2*t;
+ 	r = j*i+1;
 
-// 	while(1){
-// 		if(miller_rabin_deterministic(r))
-// 			break;
-// 		r += j;
-// 	}
+ 	while(1){
+ 		if(miller_rabin_deterministic(r))
+ 			break;
+ 		r += j;
+ 	}
 
-// 	j = gen_ran_int(0,100);
-// 	i = 2*r*s;
-// 	unsigned long long p = 2*s*exp_mod(s, r-2, r)-1 + i*j;
+ 	j = gen_ran_int(0,100);
+ 	i = 2*r*s;
+ 	unsigned long long p = 2*s*exp_mod(s, r-2, r)-1 + i*j;
 
-// 	while(1){
-// 		if(miller_rabin_deterministic_long(p))
-// 			break;
-// 		p+=i;
-// 	}
-// 	return p;
-// }
-// unsigned long long exp_mod_long(unsigned long long n, unsigned long long exp, unsigned long long mod){
-// 	unsigned long long res = 1;
-// 	while (exp>0){
-// 		if ((exp&1)>0)
-// 			res = (res*n)%mod;
-//     	exp >>= 1;
-//     	n = (n*n)%mod;
-// 	}
-// 	return res;
-// }
-
-// bool witness_long(unsigned long long n, unsigned long long mant, unsigned long long exp, int base){ // n-1 = mant* 2^exp
-// 	unsigned long long x;
-// 	x = exp_mod_long(base, mant, n);
-// 	if ((x==1) || (x==n-1))
-// 		return false;
-// 	for(unsigned long long i=1; i<exp; i++){
-// 		x = (x*x)%n;
-// 		if (x==n-1)
-// 			return false;
-// 	}
-// 	return true;
-// }
-
-// bool miller_rabin_deterministic_long(unsigned long long n){ // Works for n<2^64
-// 	int base[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
-// 	unsigned long long exp, mant;
-// 	exp = __builtin_ctzll(n-1);
-//     mant = n>>exp;
-
-// 	for(int i=0; i<12; i++){
-// 		if (witness_long(n, mant, exp, base[i]))
-// 			return false;
-// 	}
-// 	return true;
-// }
+ 	while(1){
+ 		if(miller_rabin_deterministic_long(p))
+ 			break;
+ 		p+=i;
+ 	}
+ 	return p;
+}
